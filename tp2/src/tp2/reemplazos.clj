@@ -1,12 +1,16 @@
 (ns tp2.reemplazos
 (:require [clojure.string :as str]))
 
-(defn reemplazar
-  "Mira caracter por caracter y si es un predecesor lo reemplaza por su sucesor
-  y si no lo deja igual, retorna el string resultante después de hacerlo n veces"
-  [axioma predecesores-sucesores n]
-  (apply str (repeat n
-                     (reduce (fn [resultado letra]
-                               (str resultado (get predecesores-sucesores letra letra)))
-                             ""
-                             axioma))))
+
+
+(defn reemplazar [axioma reglas]
+  (reduce (fn [acc [k v]] (clojure.string/replace acc k v)) axioma reglas))
+
+(defn n-reemplazos
+  "Aplica la función de reemplazo n veces."
+  [axioma reglas n]
+  (loop [axioma axioma
+         i n]
+    (if (zero? i)
+      axioma
+      (recur (reemplazar axioma reglas) (dec i)))))

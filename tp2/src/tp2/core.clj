@@ -6,12 +6,12 @@
 
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Lee el archivo y aplica los reemplazos especificados."
   [& args]
   (let [infoArchivo (archivo/leer-archivo (nth args 0))
         angulo (Float/parseFloat (first infoArchivo))
-        n-reemplazos (Float/parseFloat (nth args 1))
+        n-reemplazos (Integer/parseInt (nth args 1))
         axioma (second infoArchivo)
         predecesores-sucesores (archivo/analizar-sl infoArchivo)
-        axiomas-reemplazados (reemplazos/reemplazar axioma predecesores-sucesores n-reemplazos)]
-    (println axiomas-reemplazados)))
+        axioma-final (reemplazos/n-reemplazos axioma predecesores-sucesores n-reemplazos)]
+    (println axioma-final)))
