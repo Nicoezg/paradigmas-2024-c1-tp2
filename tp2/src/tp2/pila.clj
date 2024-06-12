@@ -2,8 +2,8 @@
 
 (defn pila [tortuga] (conj '() tortuga))
 
-(defn pila-desapilar[pila] (pop pila))
+(defn desapilar[pila] (pop pila))
 
-(defn pila-apilar[pila tortuga] (conj pila tortuga))
+(defn apilar[pila tortuga] (conj pila tortuga))
 
-(defn pila-ver-tope [pila] (first pila))
+(defn ver-tope [pila] (first pila))

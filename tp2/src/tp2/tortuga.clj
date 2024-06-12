@@ -1,7 +1,7 @@
 (ns tp2.tortuga
 (:require [tp2.vector2d :as vec]))
 
-(defn tortuga [] {:posicion (vec/vec2d 0 0) :orientacion 0 :pluma 1})
+(defn tortuga [] {:posicion (vec/vec2d 0 0) :orientacion 0})
 
 (defn adelante [tortuga n]
   (let [pos (get tortuga :posicion)
@@ -19,15 +19,9 @@
 
 (defn izquierda [tortuga new-angulo]
   (let [angulo (+ (get tortuga :orientacion) new-angulo)]
-    (if (> angulo 360)
+    (if (>= angulo 360)
       (assoc tortuga :orientacion (- angulo 360))
       (assoc tortuga :orientacion angulo))))
-
-(defn pluma_arriba [tortuga] (assoc tortuga :pluma 0))
-
-(defn pluma_abajo [tortuga] (assoc tortuga :pluma 1))
-
-(defn estado-pluma [tortuga] (get tortuga :pluma))
 
 (defn tortuga-x [tortuga] (vec/vec2d-x(get tortuga :posicion)))
 
@@ -40,3 +34,28 @@
             posfinal (vec/vec2d-set-y posx y)]
             (assoc tortuga :posicion posfinal))
 )
+
+(defn max-x
+  "Encuentra el máximo valor de la coordenada x entre todas las tortugas en una lista de listas de dos tortugas cada una.
+      lista-tortugas: lista de listas de dos tortugas cada una."
+  [lista-tortugas]
+  (apply max (map #(max (tortuga-x (first %)) (tortuga-x (second %))) lista-tortugas)))
+
+(defn max-y
+  "Encuentra el máximo valor de la coordenada y entre todas las tortugas en una lista de listas de dos tortugas cada una.
+      lista-tortugas: lista de listas de dos tortugas cada una."
+  [lista-tortugas]
+  (apply max (map #(max (tortuga-y (first %)) (tortuga-y (second %))) lista-tortugas)))
+
+(defn min-x 
+    "Encuentra el mínimo valor de la coordenada x entre todas las tortugas en una lista de listas de dos tortugas cada una.
+        lista-tortugas: lista de listas de dos tortugas cada una."
+    [lista-tortugas]
+    (apply min (map #(min (tortuga-x (first %)) (tortuga-x (second %))) lista-tortugas)))
+
+(defn min-y 
+    "Encuentra el mínimo valor de la coordenada y entre todas las tortugas en una lista de listas de dos tortugas cada una.
+    lista-tortugas: lista de listas de dos tortugas cada una."
+
+    [lista-tortugas]
+    (apply min (map #(min (tortuga-y (first %)) (tortuga-y (second %))) lista-tortugas)))

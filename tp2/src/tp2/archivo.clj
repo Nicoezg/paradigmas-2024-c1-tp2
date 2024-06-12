@@ -6,8 +6,7 @@
   "Lee un archivo y retorna su contenido"
   [nombre-archivo]
   (with-open [archivo (io/reader nombre-archivo)]
-    (doall (line-seq archivo)))
-)
+    (doall (line-seq archivo))))
 
 (defn analizar-sl
   "Reciben informacion del archivo sl
@@ -19,14 +18,3 @@
           (zipmap predecesores sucesores)
 
     ))
-
-
-
-
-
-
-"<ángulo>
-<axioma>
-<predecesor1> <sucesor1>
-<predecesor2> <sucesor2>
-<predecesor3> <sucesor3>"

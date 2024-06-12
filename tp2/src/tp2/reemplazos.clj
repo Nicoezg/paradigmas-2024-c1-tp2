@@ -14,3 +14,7 @@
     (if (zero? i)
       axioma
       (recur (reemplazar axioma reglas) (dec i)))))
+
+
+(defn separar-lineas [s]
+  (str/split s #"(?<=[\]\[+ \-gf|])|(?=[\]\[+ \-gf|])"))
