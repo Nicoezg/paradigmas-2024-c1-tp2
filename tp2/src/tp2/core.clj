@@ -11,6 +11,10 @@
   "Genera imagenes fractales mediante un algoritmos basados en sistemas-L, una simulación de gráficos
   tortuga y el formato de imágenes estándar SVG."
   [& args]
+  (if (not= (count args) 3)
+    (do
+      (println "Error: La cantidad de argumentos debe ser exactamente 3")
+      (println "Ejemplo: lector <archivo-entrada> <n-iteraciones> <archivo-salida>"))
   (let [infoArchivo (lectura/archivo (nth args 0))
         angulo (Float/parseFloat (first infoArchivo))
         n-reemplazos (Integer/parseInt (nth args 1))
@@ -24,4 +28,4 @@
         max-y (tort/max-y tortugas-procesadas)
         nombre-archivo (nth args 2)]
         (escritura/primer-linea min-x min-y max-x max-y nombre-archivo)
-        (escritura/lineas tortugas-procesadas nombre-archivo)))
+        (escritura/lineas tortugas-procesadas nombre-archivo))))

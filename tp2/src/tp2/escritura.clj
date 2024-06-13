@@ -26,7 +26,7 @@
           resto-lineas (rest linea-tortugas)]
           
           (if (tort/misma-posicion? primer-tortuga segunda-tortuga)
-              (lineas resto-lineas nombre-archivo)
+              (recur resto-lineas nombre-archivo)
               (do
                   (spit nombre-archivo linea-svg :append true)
                   (recur resto-lineas nombre-archivo))))))
