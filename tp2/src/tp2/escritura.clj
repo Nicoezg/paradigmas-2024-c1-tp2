@@ -6,7 +6,7 @@
 (defn primer-linea
   "Escribe el encabezado del arhcivo .svg"
   [x-min y-min x-max y-max nombre-archivo]
-  (spit nombre-archivo (str "<svg viewBox=\""  (- x-min 50) " " (- y-min 50) " " (+ x-max 100 ) " " (+ (Math/abs y-max) 100) "\" xmlns=\"http://www.w3.org/2000/svg\">\n"))
+  (spit nombre-archivo (str "<svg viewBox=\""  (- x-min 50) " " (- y-min 50) " " (+ x-max 100 (Math/abs x-min) ) " " (+ y-max (Math/abs y-min) 100) "\" xmlns=\"http://www.w3.org/2000/svg\">\n"))
   )
 
 (defn lineas
@@ -24,13 +24,8 @@
           linea-svg (str "  <line x1=\"" primer-tortuga-x "\" y1=\"" primer-tortuga-y "\" x2=\"" segunda-tortuga-x "\" y2=\"" segunda-tortuga-y "\" stroke-width=\"1\" stroke=\"black\" />\n")
           resto-lineas (rest linea-tortugas)
           ]
-      (spit nombre-archivo linea-svg :append true)
-      (lineas resto-lineas nombre-archivo))))
-
-
-;; <svg viewBox="-50 -150 300 200" xmlns="http://www.w3.org/2000/svg">
-;;   <line x1="0" y1="0" x2="200" y2="0" stroke-width="1" stroke="black" />
-;;   <line x1="200" y1="0" x2="200" y2="-100" stroke-width="1" stroke="black" />
-;;   <line x1="100" y1="-100" x2="0" y2="-100" stroke-width="1" stroke="black" />
-;; </svg>
-
+      (if (tort/misma-posicion? primer-tortuga segunda-tortuga)
+        (lineas resto-lineas nombre-archivo)
+        (do
+          (spit nombre-archivo linea-svg :append true)
+          (recur resto-lineas nombre-archivo))))))

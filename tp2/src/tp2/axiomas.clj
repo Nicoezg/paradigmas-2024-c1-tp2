@@ -19,37 +19,45 @@
   (pila/apilar (pila/desapilar pila-t) (tort/derecha (pila/ver-tope pila-t) 180))
 )
 
-(defn procesar [parte-axioma pila-t tortugas angulo]
+(defn procesar [caracter-axioma pila-t tortugas ini-tortuga angulo]
   (let [tortuga-anterior (pila/ver-tope pila-t)
-        pila-c (case parte-axioma
-                 "+" (girar-derecha pila-t angulo)
-                 "-" (girar-izquierda pila-t angulo)
-                 "[" (pila/apilar pila-t (pila/ver-tope pila-t))
-                 "]" (pila/desapilar pila-t)
-                 "f" (levantar-pluma pila-t)
-                 "g" (levantar-pluma pila-t)
-                 "|" (girar-180 pila-t)
-                 nil)]
-    (if pila-c
-        [pila-c  tortugas ]
-      (let [n (count (filter #(#{\F \G} %) parte-axioma))
-            tortuga-act (tort/adelante tortuga-anterior n)
-            pila-tope-actualizado (pila/apilar (pila/desapilar pila-t) tortuga-act)]
-        [pila-tope-actualizado (conj tortugas [tortuga-anterior tortuga-act])]))))
+        pila-c (case (str caracter-axioma)
+                "+" (girar-derecha pila-t angulo)
+                "-" (girar-izquierda pila-t angulo)
+                "[" (pila/apilar pila-t tortuga-anterior)
+                "]" (pila/desapilar pila-t)
+                "f" (levantar-pluma pila-t)
+                "g" (levantar-pluma pila-t)
+                "|" (girar-180 pila-t)
+                "F" (pila/apilar (pila/desapilar pila-t) (tort/adelante tortuga-anterior 1))
+                "G" (pila/apilar (pila/desapilar pila-t) (tort/adelante tortuga-anterior 1))
+                 nil)] ; Valor por defecto si caracter-axioma no coincide con ninguno de los casos
+    (cond 
+      (nil? pila-c) [pila-t tortugas ini-tortuga] ; No se encontró ningún caso válido
+      (tort/misma-posicion? tortuga-anterior (pila/ver-tope pila-c))
+        [pila-c 
+         (conj tortugas [ini-tortuga tortuga-anterior]) 
+         (pila/ver-tope pila-c)] ; Misma posición, actualizamos las tortugas
+      (= (str caracter-axioma)"]")
+          [pila-c 
+         (conj tortugas [ini-tortuga tortuga-anterior]) 
+         (pila/ver-tope pila-c)] 
+      :else [pila-c tortugas ini-tortuga]))) ; Caso general, actualizamos la pila y mantenemos las tortugas y la tortuga inicial
 
 
-(defn iterar-axiomas [lista-axiomas pila vectores angulo]
-  (let [pila-y-tortuga (procesar (first lista-axiomas) pila vectores angulo)
+(defn iterar-axiomas [axiomas pila vectores angulo tortuga-ini]
+  (let [pila-y-tortuga (procesar (first axiomas) pila vectores tortuga-ini angulo)
         pila-actualizada (first pila-y-tortuga)
-        tortugas-actualizadas (second pila-y-tortuga)]
-    (if (empty? (rest lista-axiomas))
-      tortugas-actualizadas
-      (iterar-axiomas (rest lista-axiomas) pila-actualizada tortugas-actualizadas angulo))))
+        tortugas-actualizadas (second pila-y-tortuga)
+        tortuga-ini-act (last pila-y-tortuga)]
 
-(defn obtener-lineas [lista-axiomas angulo]
+    (if (empty? (subs axiomas 1))
+      tortugas-actualizadas
+      (recur (subs axiomas 1) pila-actualizada tortugas-actualizadas angulo tortuga-ini-act))))
+
+
+(defn obtener-lineas [axioma angulo]
   (let [pila-t (pila/pila (tort/tortuga))]
-      (iterar-axiomas lista-axiomas pila-t [] angulo)
+      (iterar-axiomas axioma pila-t [] angulo (tort/tortuga))
   )
 )
-
-

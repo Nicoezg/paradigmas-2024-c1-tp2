@@ -3,18 +3,25 @@
 
 
 
-(defn reemplazar [axioma reglas]
-  (reduce (fn [acc [k v]] (clojure.string/replace acc k v)) axioma reglas))
+(defn replace-tail [acc restantes reglas]
+  (if (empty? restantes)
+    acc
+    (let [reemplazo (get reglas (first restantes) (first restantes))]
+      (recur (str acc reemplazo) (rest restantes) reglas))))
 
-(defn n-reemplazos
-  "Aplica la función de reemplazo n veces."
-  [axioma reglas n]
-  (loop [axioma axioma
-         i n]
-    (if (zero? i)
-      axioma
-      (recur (reemplazar axioma reglas) (dec i)))))
+(defn reemplazar [s reglas]
+  (let [sec-strings (map str (seq s))]
+    (replace-tail "" sec-strings reglas)))
 
+(defn iterar [axioma reglas n]
+  (let [res(reemplazar axioma reglas)
+        contador(dec n)]
+        (if (zero? contador)
+            res
+            (recur res reglas contador))
+  )
+)
 
-(defn separar-lineas [s]
-  (str/split s #"(?<=[\]\[+ \-gf|])|(?=[\]\[+ \-gf|])"))
+(defn reemplazar [s reglas]
+  (let [sec-strings (map str (seq s))]
+    (replace-tail "" sec-strings reglas)))

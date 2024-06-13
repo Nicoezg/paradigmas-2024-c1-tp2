@@ -16,9 +16,8 @@
         n-reemplazos (Integer/parseInt (nth args 1))
         axioma (second infoArchivo)
         predecesores-sucesores (archivo/analizar-sl infoArchivo)
-        axioma-final (reemplazos/n-reemplazos axioma predecesores-sucesores n-reemplazos)
-        axioma-spliteado (reemplazos/separar-lineas axioma-final)
-        tortugas-procesadas (axiomas/obtener-lineas axioma-spliteado angulo)
+        axioma-final (reemplazos/iterar axioma predecesores-sucesores n-reemplazos)
+        tortugas-procesadas (axiomas/obtener-lineas axioma-final angulo)
         min-x (tort/min-x tortugas-procesadas)
         min-y (tort/min-y tortugas-procesadas)
         max-x (tort/max-x tortugas-procesadas)
@@ -27,14 +26,4 @@
         (escritura/primer-linea min-x min-y max-x max-y nombre-archivo)
         
         (escritura/lineas tortugas-procesadas nombre-archivo)
-
     ))
-
-
-;; tortugas-procesadas (axiomas/obtener-lineas axioma-final angulo)]
-;;         min-x(tort/min-x tortugas-procesadas)
-;;         min-y(tort/min-y tortugas-procesadas)
-;;         max-x(tort/max-x tortugas-procesadas)
-;;         max-y(tort/max-y tortugas-procesadas)
-;;         (escritura/primer-linea min-x min-y max-x max-y nombre-archivo)
-;;         (escritura/lineas tortugas-procesadas nombre-archivo )

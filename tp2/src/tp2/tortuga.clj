@@ -1,13 +1,13 @@
 (ns tp2.tortuga
 (:require [tp2.vector2d :as vec]))
 
-(defn tortuga [] {:posicion (vec/vec2d 0 0) :orientacion 0})
+(defn tortuga [] {:posicion (vec/vec2d 0 0) :orientacion 270})
 
 (defn adelante [tortuga n]
   (let [pos (get tortuga :posicion)
         orient (get tortuga :orientacion)
-        movx (vec/vec2d-set-x pos (+ (vec/vec2d-x pos) (* n (Math/cos (/ (* Math/PI orient) 180 )))))
-        movcompleto (vec/vec2d-set-y movx (+ (vec/vec2d-y movx) (* n (Math/sin (/ (* Math/PI orient) 180)))))]
+        movx (vec/vec2d-set-x pos (+ (vec/vec2d-x pos) (* n 10 (Math/cos (/ (* Math/PI orient) 180 )))))
+        movcompleto (vec/vec2d-set-y movx (+ (vec/vec2d-y movx) (* n 10 (Math/sin (/ (* Math/PI orient) 180)))))]
     (assoc tortuga :posicion movcompleto)))
 
 
@@ -59,3 +59,7 @@
 
     [lista-tortugas]
     (apply min (map #(min (tortuga-y (first %)) (tortuga-y (second %))) lista-tortugas)))
+
+(defn misma-posicion? [tortuga1 tortuga2]
+  (and (= (tortuga-x tortuga1) (tortuga-x tortuga2))
+       (= (tortuga-y tortuga1) (tortuga-y tortuga2))))
