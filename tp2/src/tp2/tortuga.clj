@@ -5,23 +5,22 @@
 
 (defn adelante [tortuga n]
   (let [pos (get tortuga :posicion)
-        orient (get tortuga :orientacion)
-        movx (vec/vec2d-set-x pos (+ (vec/vec2d-x pos) (* n 10 (Math/cos (/ (* Math/PI orient) 180 )))))
-        movcompleto (vec/vec2d-set-y movx (+ (vec/vec2d-y movx) (* n 10 (Math/sin (/ (* Math/PI orient) 180)))))]
-    (assoc tortuga :posicion movcompleto)))
-
+      orient (get tortuga :orientacion)
+      movx (vec/vec2d-set-x pos (+ (vec/vec2d-x pos) (* n 10 (Math/cos (/ (* Math/PI orient) 180 )))))
+      movcompleto (vec/vec2d-set-y movx (+ (vec/vec2d-y movx) (* n 10 (Math/sin (/ (* Math/PI orient) 180)))))]
+      (assoc tortuga :posicion movcompleto)))
 
 (defn derecha [tortuga new-angulo]
   (let [angulo (- (get tortuga :orientacion) new-angulo)]
-    (if (< angulo 0) 
-      (assoc tortuga :orientacion (+ angulo 360))
-      (assoc tortuga :orientacion angulo))))
+      (if (< angulo 0) 
+          (assoc tortuga :orientacion (+ angulo 360))
+          (assoc tortuga :orientacion angulo))))
 
 (defn izquierda [tortuga new-angulo]
   (let [angulo (+ (get tortuga :orientacion) new-angulo)]
-    (if (>= angulo 360)
-      (assoc tortuga :orientacion (- angulo 360))
-      (assoc tortuga :orientacion angulo))))
+      (if (>= angulo 360)
+          (assoc tortuga :orientacion (- angulo 360))
+          (assoc tortuga :orientacion angulo))))
 
 (defn tortuga-x [tortuga] (vec/vec2d-x(get tortuga :posicion)))
 
@@ -31,9 +30,8 @@
 
 (defn tortuga-set-posicion [tortuga x y]
     (let [posx (vec/vec2d-set-x (get tortuga :posicion) x)
-            posfinal (vec/vec2d-set-y posx y)]
-            (assoc tortuga :posicion posfinal))
-)
+        posfinal (vec/vec2d-set-y posx y)]
+        (assoc tortuga :posicion posfinal)))
 
 (defn max-x
   "Encuentra el máximo valor de la coordenada x entre todas las tortugas en una lista de listas de dos tortugas cada una.

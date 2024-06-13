@@ -1,8 +1,8 @@
-(ns tp2.archivo
+(ns tp2.lectura
 (:require [clojure.java.io :as io]
           [clojure.string :as str]))
 
-(defn leer-archivo
+(defn archivo
   "Lee un archivo y retorna su contenido"
   [nombre-archivo]
   (with-open [archivo (io/reader nombre-archivo)]
@@ -13,8 +13,6 @@
   y devuelve un hashmap {predesor1:sucesor1,...,predesorN:sucesorN}"   
     [infoArchivo]
     (let [n (count infoArchivo)
-          predecesores (map #(first (str/split % #" ")) (drop 2 infoArchivo))
-          sucesores (map #(second (str/split % #" ")) (drop 2 infoArchivo))]
-          (zipmap predecesores sucesores)
-
-    ))
+      predecesores (map #(first (str/split % #" ")) (drop 2 infoArchivo))
+      sucesores (map #(second (str/split % #" ")) (drop 2 infoArchivo))]
+      (zipmap predecesores sucesores)))
